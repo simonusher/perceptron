@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+
+\author{Szymon Woźniak, 235040}
+\date{15.10.2019}
+\title{Sprawozdanie 1\\Perceptron prosty i Adaline}
+
+
+\begin{document}
+	\pagenumbering{gobble}
+	\maketitle
+	\newpage
+	\pagenumbering{arabic}
+	
+	\section{Opis badań eksperymentalnych}
+	Celem badań jest poznanie właściwości dwóch modeli neuronu: perceptronu prostego i Adaline,
+	oraz ich porównanie. Mają one również na celu przeanalizowanie wpływu doboru zakresu wag początkowych, współczynnika uczenia $\alpha$ oraz funkcji przejścia neuronu na szybkość uczenia.
+	\section{Opis aplikacji wykorzystywanej do badań}
+	Aplikacja do badań właściwości modeli neuronu została zaimplementowana w języku C++ w standardzie 17.
+	\section{Charakterystyka zbiorów danych użytych do badań}
+		Do przeprowadzenia badań zostały użyte zbiory danych
+		skonstruowane z argumentów i wartości funkcji logicznych OR i AND.
+		\begin{table}[H]
+			\centering
+			\caption{Funkcja logiczna OR}
+			\label{tab:or-func}
+			\begin{tabular}{|c|c|c|ll}
+			\cline{1-3}
+			$x$ & $y$ & $f(x, y)$ &  &  \\ \cline{1-3}
+			0 & 0 & 0       &  &  \\ \cline{1-3}
+			0 & 1 & 1       &  &  \\ \cline{1-3}
+			1 & 0 & 1       &  &  \\ \cline{1-3}
+			1 & 1 & 1       &  &  \\ \cline{1-3}
+			\end{tabular}
+			\end{table}
+		\begin{table}[H]
+			\centering
+			\caption{Funkcja logiczna AND}
+			\label{tab:and-func}
+			\begin{tabular}{|c|c|c|ll}
+			\cline{1-3}
+			$x$ & $y$ & $f(x, y)$ &  &  \\ \cline{1-3}
+			0 & 0 & 0       &  &  \\ \cline{1-3}
+			0 & 1 & 1       &  &  \\ \cline{1-3}
+			1 & 0 & 1       &  &  \\ \cline{1-3}
+			1 & 1 & 1       &  &  \\ \cline{1-3}
+			\end{tabular}
+			\end{table}
+	\section{Badania}
+
+	\subsection*{Eksperyment 1. Wpływ zakresu początkowych wartości wag na szybkość uczenia}
+	\paragraph{Założenia: } 
+	\paragraph{Przebieg eksperymentu: }
+	\paragraph{Wyniki: }
+	\paragraph{Komentarz: }
+
+	\subsection*{Eksperyment 2. Wpływ wartość współczynnika uczenia $\alpha$ na szybkość uczenia}
+	\paragraph{Założenia: }
+	\paragraph{Przebieg eksperymentu: }
+	\paragraph{Wyniki: }
+	\paragraph{Komentarz: }
+
+	\subsection*{Eksperyment 3. Wpływ funkcji przejścia neuronu na szybkość uczenia}
+	\paragraph{Założenia: }
+	\paragraph{Przebieg eksperymentu: }
+	\paragraph{Wyniki: }
+	\paragraph{Komentarz: }
+	\section{Podsumowanie}
+\end{document}
