@@ -1,11 +1,14 @@
 // perceptron.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include "pch.h"
 #include <iostream>
 #include "Perceptron.h"
 #include "TrainingAlgorithm.h"
 #include <random>
+#include "TestRunner.h"
+
+typedef std::pair<std::valarray<double>, double> TrainingExample;
+typedef std::vector<TrainingExample> TrainingSet;
 
 int main()
 {
@@ -25,40 +28,107 @@ int main()
 		{ { 1, 1 }, 1 },
 	};
 
+	std::vector<std::pair<std::valarray<double>, double>> orBias{
+		{ { 0, 0 }, 0 },
+		{ { 0, 1 }, 1 },
+		{ { 1, 0 }, 1 },
+		{ { 1, 1 }, 1 },
+	};
+
+	std::vector<std::pair<std::valarray<double>, double>> andBias{
+		{ { 1, 0, 0 }, 0 },
+		{ { 1, 0, 1 }, 0 },
+		{ { 1, 1, 0 }, 0 },
+		{ { 1, 1, 1 }, 1 },
+	};
+
+
+	std::vector<std::pair<std::valarray<double>, double>> orBipolar{
+		{ { -1, -1 }, -1 },
+		{ { -1, 1 }, 1 },
+		{ { 1, -1 }, 1 },
+		{ { 1, 1 }, 1 },
+	};
+
+	std::vector<std::pair<std::valarray<double>, double>> andBipolar{
+		{ { -1, -1 }, -1 },
+		{ { -1, 1 }, -1 },
+		{ { 1, -1 }, -1 },
+		{ { 1, 1 }, 1 },
+	};
+	
+
 	std::vector<std::pair<std::valarray<double>, double>> orTrainingSetWithBias {
-		{ { 1, 0, 0 }, -1 },
-		{ { 1, 0, 1 }, 1 },
-		{ { 1, 1, 0 }, 1 },
+		{ { 1, -1, -1 }, -1 },
+		{ { 1, -1, 1 }, 1 },
+		{ { 1, 1, -1 }, 1 },
 		{ { 1, 1, 1 }, 1 },
 	};
 
 	std::vector<std::pair<std::valarray<double>, double>> andTrainingSetWithBias {
-		{ { 1, 0, 0 }, -1 },
-		{ { 1, 0, 1 }, -1 },
-		{ { 1, 1, 0 }, -1 },
+		{ { 1, -1, -1 }, -1 },
+		{ { 1, -1, 1 }, -1 },
+		{ { 1, 1, -1 }, -1 },
 		{ { 1, 1, 1 }, 1 },
+	};
+
+	std::vector<std::pair<std::valarray<double>, double>> nandTrainingSetWithBias{
+	{ { 1, -1, -1 }, 1 },
+	{ { 1, -1, 1 }, 1 },
+	{ { 1, 1, -1 }, 1 },
+	{ { 1, 1, 1 }, -1 },
+	};
+
+	std::vector<std::pair<std::valarray<double>, double>> norTrainingSetWithBias{
+	{ { 1, -1, -1 }, 1 },
+	{ { 1, -1, 1 }, -1 },
+	{ { 1, 1, -1 }, -1 },
+	{ { 1, 1, 1 }, -1 },
 	};
 	
 	std::random_device randomDevice;
 	std::mt19937 randomGenerator(randomDevice());
 
 
-	Adaline p(3);
-	TrainingAlgorithm l;
-	std::vector<std::pair<std::valarray<double>, double>>& trainingSet = orTrainingSetWithBias;
-	// std::vector<std::pair<std::valarray<double>, double>>& trainingSet = orTrainingSet;
+	// std::vector<TrainingSet> trainingSets{
+	// 	orTrainingSetWithBias, andTrainingSetWithBias
+	// };
+
+	std::vector<TrainingSet> unipolar{
+		orBias, andBias
+	};
+
+	std::vector<TrainingSet> bipolar{
+		orBipolar, andBipolar
+	};
 	
-	p.initializeRandomly(randomGenerator, -0.1, 0.1);
+	std::vector<TrainingSet> trainingSets{
+		orTrainingSetWithBias, andTrainingSetWithBias
+	};
+
+	std::vector<std::pair<double, double>> ranges {
+		{-2, 2 },
+		{-1, 1 },
+		{ -0.8, 0.8 },
+		{ -0.5, 0.5 },
+		{ -0.2, 0.2 },
+		{ -0.1, 0.1 },
+		{ -0.05, 0.05 },
+		{ -0.01, 0.01 },
+		{ -0.001, 0.001 },
+	};
+
+	// testRunner::runAdalineRandomInitializationTests(ranges, trainingSets, 0.05, 0.3);
+	// testRunner::runPerceptronRandomInitializationTests(ranges, trainingSets, 0.05);
+	//
+
+	std::vector<double> alphas{ 1e-6, 0.001, 0.01, 0.05, 0.1, 0.2, 0.5, 0.9};
+	std::pair<double, double> range{ -0.1, 0.1 };
 	
-	l.train(p, trainingSet, 0.01, 0.3);
-	// l.train(p, trainingSet, 0.01, 300);
+	// testRunner::runAdalineAlphaTests(alphas, trainingSets, range, 0.3);
+	// testRunner::runPerceptronAlphaTests(alphas, trainingSets, range);
 
-
-	std::cout << "LEARNED: " << std::endl;
-	for (int i = 0; i < trainingSet.size(); i++) {
-		std::cout << p.calculateOutput(trainingSet[i].first) << std::endl;
-	}
-
-	std::cout << p;
+	testRunner::runUnipolarTest(0.05, unipolar, range);
+	testRunner::runBipolarTest(0.05, trainingSets, range);
 }
 

@@ -1,43 +1,50 @@
-#include "pch.h"
 #include "TrainingAlgorithm.h"
 #include <iostream>
 
 typedef std::pair<std::valarray<double>, double> TrainingExample;
 typedef std::vector<TrainingExample> TrainingSet;
 
-void TrainingAlgorithm::train(Perceptron & neuron, const TrainingSet& trainingSet, double learningRateAlpha, int iterations) {
-	for (int i = 0; i < iterations; i++) {
-		std::cout << i << std::endl;
+int TrainingAlgorithm::train(Perceptron & neuron, const TrainingSet& trainingSet, double learningRateAlpha) {
+	double error;
+	int iterations = 0;
+	do {
+		error = 0;
 		for (int j = 0; j < trainingSet.size(); j++) {
-			trainOneIteration(neuron, trainingSet[j], learningRateAlpha);
+			error += trainOneIteration(neuron, trainingSet[j], learningRateAlpha);
+			iterations++;
 		}
-	}
+	} while (error > 0);
+	return iterations;
 }
 
-void TrainingAlgorithm::trainOneIteration(Perceptron& neuron, const TrainingExample& example, double alpha) {
+double TrainingAlgorithm::trainOneIteration(Perceptron& neuron, const TrainingExample& example, double alpha) {
 	double output = neuron.calculateOutput(example.first);
 	double delta = calculateError(example.second, output);
-	std::cout << "\t" << delta << std::endl;
 	neuron.learn(alpha * delta * example.first);
+	return delta;
 }
 
-void TrainingAlgorithm::train(Adaline& neuron, const TrainingSet& trainingSet, double learningRateAlpha, double learningStopErrorThreshold) {
+int TrainingAlgorithm::train(Adaline& neuron, const TrainingSet& trainingSet, double learningRateAlpha, double learningStopErrorThreshold) {
 	double meanSquaredError;
+	int iterationsPassed = 0;
 	do {
 		meanSquaredError = trainOneIterationAdaline(neuron, trainingSet, learningRateAlpha);
+		iterationsPassed++;
 	} while (meanSquaredError > learningStopErrorThreshold);
+	return iterationsPassed;
 }
 
 double TrainingAlgorithm::trainOneIterationAdaline(Adaline& neuron, const TrainingSet& trainingSet, double alpha) {
 	double meanSquaredError = 0;
+	std::valarray<double> weights(0.0, neuron.getNumberOfInputs());
 	for (int i = 0; i < trainingSet.size(); i++) {
 		double activation = neuron.forward(trainingSet[i].first);
 		double error = trainingSet[i].second - activation;
 		meanSquaredError += error * error;
-		neuron.learn(2 * error * alpha * trainingSet[i].first);
+		weights += 2 * error * alpha * trainingSet[i].first;
 	}
+	neuron.learn(weights);
 	meanSquaredError /= trainingSet.size();
-	std::cout << meanSquaredError << std::endl;
 	return meanSquaredError;
 }
 

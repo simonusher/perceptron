@@ -18,6 +18,18 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Adaline.h" />
+    <ClInclude Include="Perceptron.h" />
+    <ClInclude Include="TestRunner.h" />
+    <ClInclude Include="TrainingAlgorithm.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Adaline.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Perceptron.cpp" />
+    <ClCompile Include="TrainingAlgorithm.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{A2C25C93-80EF-4744-A8AB-D9357C7FBDEF}</ProjectGuid>
@@ -133,7 +145,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -150,24 +162,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="Adaline.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="Perceptron.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Adaline.cpp" />
-    <ClCompile Include="TrainingAlgorithm.cpp" />
-    <ClCompile Include="TrainingAlgorithm.h" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Perceptron.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

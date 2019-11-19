@@ -25,6 +25,7 @@
 	\section{Charakterystyka zbiorów danych użytych do badań}
 		Do przeprowadzenia badań zostały użyte zbiory danych
 		skonstruowane z argumentów i wartości funkcji logicznych OR i AND.
+		Dodatkowo do użycia z funkcją bipolarną, wszystkie wartości 0 były reprezentowane przez -1.
 		\begin{table}[H]
 			\centering
 			\caption{Funkcja logiczna OR}
@@ -46,29 +47,119 @@
 			\cline{1-3}
 			$x$ & $y$ & $f(x, y)$ &  &  \\ \cline{1-3}
 			0 & 0 & 0       &  &  \\ \cline{1-3}
-			0 & 1 & 1       &  &  \\ \cline{1-3}
-			1 & 0 & 1       &  &  \\ \cline{1-3}
+			0 & 1 & 0       &  &  \\ \cline{1-3}
+			1 & 0 & 0       &  &  \\ \cline{1-3}
 			1 & 1 & 1       &  &  \\ \cline{1-3}
 			\end{tabular}
 			\end{table}
 	\section{Badania}
 
-	\subsection*{Eksperyment 1. Wpływ zakresu początkowych wartości wag na szybkość uczenia}
-	\paragraph{Założenia: } 
-	\paragraph{Przebieg eksperymentu: }
-	\paragraph{Wyniki: }
-	\paragraph{Komentarz: }
+	\subsection*{Eksperyment 1. Wpływ zakresu początkowych wartości wag na szybkość uczenia} \label{sec:experiment1}
+	\paragraph{Założenia}\mbox{}\\
+	Perceptron:
+	\begin{itemize}
+		\item unipolarna funkcja z progiem aktywacji 0.5,
+		\item współczynnik uczenia $\alpha$ = 0.05,
+		\item warunek końca uczenia - brak błędnie zaklasyfikowanych wzorców.
+	\end{itemize}
+
+	Adaline:
+	\begin{itemize}
+		\item bipolarna funkcja aktywacji z progiem 0,
+		\item współczynnik uczenia $\alpha$ = 0.05,
+		\item warunek końca uczenia - błąd średniokwadratowy na ciągu uczącym mniejszy niż 0.3.
+	\end{itemize}
+	Dla obu modeli neuronu badano następujące zakresy wag: [-2, 2 ],
+	[-1, 1], [-0.8, 0.8], [-0.5, 0.5], [-0.2, 0.2], [-0.1, 0.1], [-0.05, 0.05], [-0.01, 0.01], [-0.001, 0.001].
+	\paragraph{Przebieg eksperymentu }\mbox{}\\
+	Badano liczbę iteracji prowadzącą do osiągnięcia warunku końca uczenia. Wyniki zostały uśrednione z 50 przebiegów.
+	\paragraph{Wyniki}\mbox{}\\
+	\begin{table}[H]
+		\centering
+		\caption{Średnia liczba iteracji prowadząca do wyuczenia neuronu w zależności od zadanego zakresu losowania wag}
+		\label{tab:weights-random}
+		\begin{tabular}{|r|r|r|r|r|r|}
+		\hline
+		\multicolumn{1}{|c|}{}    & \multicolumn{1}{l|}{}    & \multicolumn{2}{c|}{Perceptron}                    & \multicolumn{2}{c|}{Adaline}                       \\ \hline
+		\multicolumn{1}{|c|}{min} & \multicolumn{1}{l|}{max} & \multicolumn{1}{c|}{OR} & \multicolumn{1}{c|}{AND} & \multicolumn{1}{c|}{OR} & \multicolumn{1}{c|}{AND} \\ \hline
+		-2                        & 2                        & 79.04                   & 38.00                    & 4.92                    & 5.42                     \\ \hline
+		-1                        & 1                        & 56.16                   & 24.24                    & 3.16                    & 2.32                     \\ \hline
+		-0.8                      & 0.8                      & 55.04                   & 26.40                    & 3.14                    & 2                        \\ \hline
+		-0.5                      & 0.5                      & 45.84                   & \textbf{23.12}           & \textbf{2.88}           & 1.68                     \\ \hline
+		-0.2                      & 0.2                      & 41.92                   & 26.40                    & 3.08                    & 1.32                     \\ \hline
+		-0.1                      & 0.1                      & 38.24                   & 25.84                    & 3                       & 1.06                     \\ \hline
+		-0.05                     & 0.05                     & 37.28                   & 26.00                    & 3                       & \textbf{1}               \\ \hline
+		-0.01                     & 0.01                     & \textbf{36.88}          & 26.00                    & 3                       & 1                        \\ \hline
+		-0.001                    & 0.001                    & 37.12                   & 26.16                    & 3                       & 1                        \\ \hline
+		\end{tabular}
+		\end{table}
+	\paragraph{Komentarz}\mbox{}\\
+	W tabeli \ref{tab:weights-random} widać, że dobry zakres losowych wag jest różny dla różnych problemów oraz inny dla różnych modeli neuronu.
+	Można również zauważyć generalną tendencję, że mniejsze zakresy dają większą szybkość uczenia.
 
 	\subsection*{Eksperyment 2. Wpływ wartość współczynnika uczenia $\alpha$ na szybkość uczenia}
-	\paragraph{Założenia: }
-	\paragraph{Przebieg eksperymentu: }
-	\paragraph{Wyniki: }
-	\paragraph{Komentarz: }
+	\paragraph{Założenia}\mbox{}\\
+	Dla obu modeli poczynione zostały następujące założenia:
+	\begin{itemize}
+		\item bipolarna funkcja aktywacji z progiem 0,
+		\item zakres losowania wag [-0.1, 0.1].
+	\end{itemize}
+	Dla obu modeli neuronu badano następujące wartości współczynnika uczenia: [0.001, 0.01, 0.05, 0.1, 0.2, 0.5].
+	\\Warunki końca uczenia były takie jak w sekcji \ref{sec:experiment1}.
+	\paragraph{Przebieg eksperymentu}\mbox{}\\
+	Badano liczbę iteracji potrzebnych do osiągnięcia warunku końca uczenia, w zależności od zadanego parametru $\alpha$.
+	Eksperyment był powtarzany 50 razy dla każdej wartości współczynnika, a następnie wyniki zostały uśrednionie.
+	\paragraph{Wyniki}\mbox{}\\
+	\begin{table}[H]
+		\centering
+		\caption{Średnia liczba iteracji prowadząca do wyuczenia neuronu w zależności od zadanego współczynnika uczenia $\alpha$}
+		\label{tab:alpha}
+		\begin{tabular}{|r|r|r|r|r|}
+		\hline
+			  & \multicolumn{2}{c|}{Perceptron}                    & \multicolumn{2}{c|}{Adaline}                       \\ \hline
+		\multicolumn{1}{|c|}{$\alpha$} & \multicolumn{1}{c|}{OR} & \multicolumn{1}{c|}{AND} & \multicolumn{1}{c|}{OR} & \multicolumn{1}{c|}{AND} \\ \hline
+		0.001 & 37.2                    & 9.6                      & 169.3                   & 171.4                    \\ \hline
+		0.01  & 9.2                     & 4.48                     & 17.72                   & 17.94                    \\ \hline
+		0.05  & 8.24                    & \textbf{4.4}             & 4                       & 4                        \\ \hline
+		0.1   & \textbf{7.6}            & 4.64                     & \textbf{2}              & \textbf{2}               \\ \hline
+		0.2   & 7.92                    & 4.48                     & 4                       & 4                        \\ \hline
+		0.5   & 7.76                    & \textbf{4.4}             & 647.88                  & 647.92                   \\ \hline
+		\end{tabular}
+		\end{table}
+
+	\paragraph{Komentarz}\mbox{}\\
+	W tabeli \ref{tab:alpha} można zauważyć, że za równo za małe jak i za duże wartości współczynnika $\alpha$ skutkują zmniejszeniem szybkości uczenia.
+	Widać również, że model Adaline jest mniej odporny na skrajnie duże i małe wartości.
 
 	\subsection*{Eksperyment 3. Wpływ funkcji przejścia neuronu na szybkość uczenia}
-	\paragraph{Założenia: }
-	\paragraph{Przebieg eksperymentu: }
-	\paragraph{Wyniki: }
-	\paragraph{Komentarz: }
+	\paragraph{Założenia}\mbox{}\\
+	W obu przypadkach przyjętę zostały następujące założenia:
+	\begin{itemize}
+		\item współczynnik uczenia $\alpha$ = 0.05
+		\item zakres losowania wag [-0.1, 0.1].
+	\end{itemize}
+	W przypadku funkcji unipolarnej próg aktywacji został ustawiony na 0.5.
+	\paragraph{Przebieg eksperymentu}\mbox{}\\
+	Badano liczbę iteracji potrzebnych do osiągnięcia warunku końca uczenia, w zależności od wybranej funkcji aktywacji.
+	Eksperyment był powtarzany 50 razy dla obu funkcji, a następnie wyniki zostały uśrednionie.
+	\paragraph{Wyniki}\mbox{}\\
+	\begin{table}[H]
+		\centering
+		\caption{Średnia liczba iteracji do wyuczenia neuronu w zależności od wybranej funkcji aktywacji.}
+		\label{tab:activation}
+		\begin{tabular}{|c|r|r|}
+		\hline
+			& \multicolumn{1}{c|}{f. unipolarna} & \multicolumn{1}{c|}{f. bipolarna} \\ \hline
+		OR  & 38.8                               & 8.08                              \\ \hline
+		AND & 19.12                              & 4.32                              \\ \hline
+		\end{tabular}
+		\end{table}
+	\paragraph{Komentarz}\mbox{}\\
+	Jak widać w tabeli \ref{tab:activation} wybór funkcji bipolarnej znacząco poprawia szybkość uczenia neuronu.
 	\section{Podsumowanie}
+	Model Adaline w większości przypadków daje lepszą szybkość uczenia niż perceptron prosty. 
+	Zakresy losowania wag bliższe 0 dają zazwyczaj lepsze wyniki, ale optimum leży w różnych miejscach dla różnych problemów.
+	Wartość współczynnika uczenia ma bardzo istotny wpływ na szybkość uczenia. 
+	Ustawienie zbyt małej lub zbyt dużej wartości znacząco wydłuża uczenie. W badaniach szczególnie uwidoczniło się to w przypadku modelu Adaline.
+	Bipolarna funkcja aktywacji daje znacznie lepszą szybkość uczenia niż unipolarna.
 \end{document}
